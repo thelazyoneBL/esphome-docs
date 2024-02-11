@@ -154,6 +154,125 @@ You must set the ``address`` of the ``modbus_controller`` to the current address
         setup_priority: -10
         update_interval: 30s
 
+Using multiple PZEM-004T v3:
+------------------------------------
+You can connect multiple PZEM-004T v3, for example: 5 PZEM-004T v3 to one D1mini, 2pcs to uart 1 and 3pcs to uart 2:
+
+.. code-block:: yaml
+
+    # Example configuration entry
+    modbus:
+      - id: mod1
+        uart_id: ua1
+      - id: mod2
+        uart_id: ua2
+        
+    
+    uart:
+      - id: ua1
+        tx_pin: D1
+        rx_pin: D2
+        baud_rate: 9600
+      - id: ua2
+        tx_pin: D5
+        rx_pin: D6
+        baud_rate: 9600
+    
+    sensor:    
+      - platform: pzemac
+        id: pzemac1
+        current:
+          name: "PZEM-004T_1 V3 Current"
+        voltage:
+          name: "PZEM-004T_1 V3 Voltage"
+        energy:
+          name: "PZEM-004T_1 V3 Energy"
+        power:
+          name: "PZEM-004T_1 V3 Power"
+        frequency:
+          name: "PZEM-004T_1 V3 Frequency"
+        power_factor:
+          name: "PZEM-004T_1 V3 Power Factor"
+        address: 1
+        modbus_id: mod1
+      - platform: pzemac
+        id: pzemac2
+        current:
+          name: "PZEM-004T_2 V3 Current"
+        voltage:
+          name: "PZEM-004T_2 V3 Voltage"
+        energy:
+          name: "PZEM-004T_2 V3 Energy"
+        power:
+          name: "PZEM-004T_2 V3 Power"
+        frequency:
+          name: "PZEM-004T_2 V3 Frequency"
+        power_factor:
+          name: "PZEM-004T_2 V3 Power Factor"
+        address: 2
+        modbus_id: mod1
+      - platform: pzemac
+        id: pzemac3
+        current:
+          name: "PZEM-004T_3 V3 Current"
+        voltage:
+          name: "PZEM-004T_3 V3 Voltage"
+        energy:
+          name: "PZEM-004T_3 V3 Energy"
+        power:
+          name: "PZEM-004T_3 V3 Power"
+        frequency:
+          name: "PZEM-004T_3 V3 Frequency"
+        power_factor:
+          name: "PZEM-004T_3 V3 Power Factor"
+        address: 3
+        modbus_id: mod2
+      - platform: pzemac
+        id: pzemac4
+        current:
+          name: "PZEM-004T_4 V3 Current"
+        voltage:
+          name: "PZEM-004T_4 V3 Voltage"
+        energy:
+          name: "PZEM-004T_4 V3 Energy"
+        power:
+          name: "PZEM-004T_4 V3 Power"
+        frequency:
+          name: "PZEM-004T_4 V3 Frequency"
+        power_factor:
+          name: "PZEM-004T_4 V3 Power Factor"
+        address: 4
+        modbus_id: mod2
+      - platform: pzemac
+        id: pzemac5
+        current:
+          name: "PZEM-004T_5 V3 Current"
+        voltage:
+          name: "PZEM-004T_5 V3 Voltage"
+        energy:
+          name: "PZEM-004T_5 V3 Energy"
+        power:
+          name: "PZEM-004T_5 V3 Power"
+        frequency:
+          name: "PZEM-004T_5 V3 Frequency"
+        power_factor:
+          name: "PZEM-004T_5 V3 Power Factor"
+        address: 5
+        modbus_id: mod2
+    interval:
+      - interval: 5s
+        then:
+           - lambda: 'id(pzemac1).update();'
+           - delay: 500ms
+           - lambda: 'id(pzemac2).update();'
+           - delay: 500ms
+           - lambda: 'id(pzemac3).update();'
+           - delay: 500ms
+           - lambda: 'id(pzemac4).update();'
+           - delay: 500ms
+           - lambda: 'id(pzemac5).update();'
+
+
 
 See Also
 --------
